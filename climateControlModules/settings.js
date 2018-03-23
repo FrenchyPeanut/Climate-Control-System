@@ -13,8 +13,9 @@ class Settings {
       "damper_in": 50,
       "damper_recycle": 50,
       "damper_out": 50,
-      "temp_heat_coil": 20,
-      "temp_cool_coil": 20,
+      "temp_vent": 20,
+      "coil_heat": 0,
+      "coil_cool": 0,
       "humidity_level": 30,
       "pressure_boiler": 60
     };
@@ -68,7 +69,8 @@ class Settings {
         (settingType === "humidity" && value > 10 && value < 80) ||
         (settingType === "pressure" && value > 20 && value < 100) ||
         (settingType === "fan" && value > 0 && value < 400) ||
-        (settingType === "damper" && value > 0 && value < 100) ) {
+        (settingType === "damper" && value > 0 && value < 100) ||
+        (settingType === "coil" && value >= 0 && value <= 1) ) {
           this.settingsJSON[id] = value;
           status = "OK";
       }

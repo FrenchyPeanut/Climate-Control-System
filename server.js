@@ -83,6 +83,17 @@ app.route('/settings')
     res.send(curSettings);
   });
 
+app.route('/sudo/:id')
+  .post(function(req, res){
+    var id = req.params.id;
+    var value = Number(req.query.value);
+    if (!value){
+      res.send("ERROR");
+      return;
+    }
+    hwController.simSetSingleReading(id, value);
+  });
+
 // start listening and begin main system loop
 app.listen(port);
 
@@ -92,18 +103,17 @@ run();
 
 function updateSystem() {
   // main system loop
-  if (init){
 
-    init = false;
-  }
   monitor.updateHWReadings(hwController.getReadings());
   monitor.monitor();
   optimizer.updateSettings(settings.getSettings());
   optimizer.getMonitorReadings(monitor.getMonitorReadings());
   optimizer.optimize();
-  var values = optimizer.getValuesToChange();
-  console.log(values);
-  hwController.setReadingsById(values);
+  hwController.setReadingsById(optimizer.getValuesToChange());
+
+  simulator.updateHWReadings(hwController.getReadings());
+  simulator.updateSimulation();
+  hwController.simSetReadings(simulator.getValuesToChange());
   // console.log('Monitor Readings')
   // console.log('-----')
   // console.log(hwController.getReadingById("zone_heater_0"));

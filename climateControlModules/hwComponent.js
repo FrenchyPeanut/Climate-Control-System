@@ -6,6 +6,7 @@ class hwComponent{
     this.id = id;
     this.reading = 0;
     this.power = false;
+    this.override = false;
   }
 
   setReading(value){
@@ -18,7 +19,9 @@ class hwComponent{
         (this.type === "Heat-Coil" && value >= 0 && value <= 60) ||
         (this.type === "Cool-Coil" && value >= 0 && value <= 30) ||
         (this.type === "Damper" && value >= 0 && value <= 100) ){
-      this.reading = value;
+      if (!this.override){
+        this.reading = value;
+      }
       return "OK";
     } else {
       return "Error: Invalid value";
@@ -31,6 +34,7 @@ class hwComponent{
 
   simSetReading(value){
     this.reading = value;
+    this.override = true;
   }
 }
 

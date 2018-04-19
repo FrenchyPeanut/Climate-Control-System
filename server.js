@@ -129,13 +129,13 @@ function updateSystem() {
   monitor.monitor();
   optimizer.updateSettings(settings.getSettings());
   optimizer.getMonitorReadings(monitor.getMonitorReadings());
+  optimizer.getCO2readings(hwController.getReadingsByType("CO2-Sensor"));
+  optimizer.getDamperStuff(hwController.getReadingsByType("Damper"));
   optimizer.optimize();
   hwController.setReadingsById(optimizer.getValuesToChange());
 
   simulator.updateHWReadings(hwController.getReadings());
   simulator.updateSimulation();
-  optimizer.getCO2readings(hwController.getReadingsByType("CO2-Sensor"));
-  optimizer.getDamperStuff(hwController.getReadingsByType("Damper"));
   hwController.simSetReadings(simulator.getValuesToChange());
   // console.log('Monitor Readings')
   // console.log('-----')

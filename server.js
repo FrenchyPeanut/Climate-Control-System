@@ -87,11 +87,15 @@ app.route('/sudo/:id')
   .post(function(req, res){
     var id = req.params.id;
     var value = Number(req.query.value);
+    var override = false;
+    if (req.query.override == "true"){
+      override = true;
+    }
     if (!value){
       res.send("ERROR");
       return;
     }
-    hwController.simSetSingleReading(id, value);
+    hwController.simSetSingleReading(id, value, override);
   });
 
 // start listening and begin main system loop

@@ -83,7 +83,7 @@ app.route('/settings')
     res.send(curSettings);
   });
 
-app.route('/sudo/:id')
+app.route('/sudo/readings/:id')
   .post(function(req, res){
     var id = req.params.id;
     var value = Number(req.query.value);
@@ -95,8 +95,21 @@ app.route('/sudo/:id')
       res.send("ERROR");
       return;
     }
-    hwController.simSetSingleReading(id, value, override);
+    hwController.sudoSetSingleReading(id, value, override);
+    res.send("OK");
   });
+
+  app.route('/sudo/zones/:zone')
+    .post(function(req, res){
+      var zone = req.params.zone;
+      var numPeople = Number(req.query.numPeople);
+      if (!zone || !numPeople){
+        res.send("ERROR");
+        return;
+      }
+      simulator.setNumPeopleInZone(zone, numPeople);
+      res.send("OK");
+    });
 
 // start listening and begin main system loop
 app.listen(port);

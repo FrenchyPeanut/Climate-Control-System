@@ -37,7 +37,6 @@ class Settings {
       toReturn.push(toPush);
     }
 
-
     return toReturn;
   }
 /*

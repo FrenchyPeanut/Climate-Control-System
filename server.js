@@ -87,11 +87,15 @@ app.route('/sudo/:id')
   .post(function(req, res){
     var id = req.params.id;
     var value = Number(req.query.value);
+    var override = false;
+    if (req.query.override != null){
+      override = true;
+    }
     if (!value){
       res.send("ERROR");
       return;
     }
-    hwController.simSetSingleReading(id, value);
+    hwController.simSetSingleReading(id, value, override);
   });
 
 // start listening and begin main system loop
@@ -103,7 +107,11 @@ run();
 
 function updateSystem() {
   // main system loop
-
+  if (init){
+    hwController.setReadingsById(settings.bypassOptimizerSettings());
+    init = false;
+  }
+  // console.log(hwController.getReadingsByType("CO2-Sensor"));
   monitor.updateHWReadings(hwController.getReadings());
   monitor.monitor();
   optimizer.updateSettings(settings.getSettings());

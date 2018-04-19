@@ -5,7 +5,7 @@ class Simulator {
     this.zones = {
       "Outside": {
         "temp": 10,
-        "co2": 250
+        "co2": 350
       },
       "Vent": {
         "temp": 10,
@@ -41,7 +41,7 @@ class Simulator {
         "heaterOn": false,
         "fan": 100,
         "co2": 250,
-        "numPeople": 10
+        "numPeople": 20
       }
     };
   }
@@ -81,8 +81,8 @@ class Simulator {
       } else {
         zoneId = zoneId[1];
       }
-      this.updateTemp(zone, zoneId);
       if (zone != "Outside"){
+        this.updateTemp(zone, zoneId);
         this.updateCO2(zone, zoneId);
       }
     }
@@ -94,6 +94,9 @@ class Simulator {
     } else if (this.zones[zone].heater > this.zones[zone].temp){
       this.zones[zone].temp += 0.25;
     }
+    if (this.zones[zone].temp < this.zones["Outside"].temp){
+      this.zones[zone].temp = this.zones["Outside"].temp;
+    }
     var tempSensorId = "temp_sensor_" + zoneId;
     var newZoneTemp = this.zones[zone].temp;
     var toPush = {
@@ -104,25 +107,42 @@ class Simulator {
   }
 
   updateCO2(zone, zoneId){
-    // var q = 0.05 * this.zoneList[zone].numPeople; // amount of co2 supplied. 0.05m3/h per person
-    // var n = 360; // number of air shifts per hour
-    // var vol = 225; // volume of room
-    // var e = 2.718;
-    // var c0 =
-    //
-    // var c = (q / (n * vol)) * (1 - Math.pow(e,(- n * t))) + (c0 - ci) * Math.pow(e,(- n * t)) + ci;
-    if (this.zones[zone].co2 > 1100){
-      this.zones[zone].co2 = getRandomIntInclusive(900, 1100);
+    if(zone == "Zone-0" || zone == "Zone-1" || zone == "Zone-2"){
+      var numPeople = this.zones[zone].numPeople;
+      var co2Increase = 2 * numPeople;
+      var airIntake = this.zones["Vent"]["damper_in"];
+      var co2Decrease = 0.5 * airIntake;
+      if (airIntake == 100 && co2Decrease < co2Increase){
+        co2Decrease = co2Increase + 50;
+      }
+
+      var co2Change = co2Increase - co2Decrease;
+      var curCO2 = this.zones[zone].co2;
+      curCO2 = curCO2 + co2Change;
+
+      if (curCO2 < this.zones["Outside"].co2){
+        curCO2 = this.zones["Outside"].co2;
+      }
+
+      var co2SensorId = "co2_sensor_" + zoneId;
+      var newZoneCO2 = curCO2;
+      this.zones[zone].co2 = newZoneCO2;
+      var toPush = {
+        "id": co2SensorId,
+        "reading": newZoneCO2
+      };
+      this.valuesToChange.push(toPush);
+    } else if (zone == "Vent"){
+
+      var co2SensorId = "co2_sensor_" + zoneId;
+      var newZoneCO2 = this.zones[zone].co2;
+      var toPush = {
+        "id": co2SensorId,
+        "reading": newZoneCO2
+      };
+      this.valuesToChange.push(toPush);
     }
-    else if (this.zones[zone].co2 > 1000 && this.zone[zone].co2 <= 1100){
-      this.zones[zone].co2 = getRandomIntInclusive(800, 1000);
-    }
-    else if (this.zones[zone].co2 > 800 && this.zone[zone].co2 <= 1000){
-      this.zones[zone].co2 = getRandomIntInclusive(700, 1100);
-    }
-    else if (this.zones[zone].co2 < 800){
-      this.zones[zone].co2 = getRandomIntInclusive(500, 800);
-    }
+
     var co2SensorId = "co2_sensor_" + zoneId;
     var newZoneCO2 = this.zones[zone].co2;
     var toPush = {

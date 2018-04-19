@@ -46,7 +46,9 @@ buttonZ1.addEventListener("click", function() {
     return;
   }
   var id = "temp_zone_0"
+
   var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
+
   console.log(url);
   /*postData('http://localhost:3000/settings/' + id, {
       value: input
@@ -97,7 +99,12 @@ buttonZ2.addEventListener("click", function() {
     return;
   }
   var id = "temp_zone_1"
+<<<<<<< HEAD
   var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
+=======
+  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+
+>>>>>>> df68460b2ae5592a653a5bd91bab33e4e3cc2237
   console.log(url);
   var data = input;
   fetch(url, {
@@ -271,7 +278,9 @@ setInterval(() => {
 
 // Initializing the allReadings query to the API:
 setInterval(() => {
+
     fetch('http://localhost:3001/allReadings')//fetch('http://45.76.143.202:3000/allReadings')
+
     .then(function(response) {
       return response.json()
     }).then(function(json) {

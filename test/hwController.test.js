@@ -8,7 +8,7 @@ describe("HWController Tests", function(){
   describe("buildHWComponentList() tests", function(){
     it('hardware components temp reading is 15', () => {
 
-        expect(hwcontroller.hwComponents[0]['reading']).toBe(15);
+        expect(hwcontroller.hwComponents[0]['reading']).toBe(0);
     });
 
     it('hardware components type is temp-sensor', () => {
@@ -18,17 +18,17 @@ describe("HWController Tests", function(){
 
     it('hardware component of first zone is present or not', () => {
         expect(hwcontroller.hwComponents[0]).toEqual({
-            zone: '0',
-            type: 'Temp-Sensor',
-            id: 'temp_sensor_0',
-            reading: 15,
-            power: false
-        })
+          "id": "temp_sensor_outside",
+          "override": false,
+          "power": false,
+          "reading": 0,
+          "type": "Temp-Sensor",
+          "zone": "Outside"});
     });
 
-    it('hardware components id is temp-sensor-0', () => {
+    it('hardware components id is temp-sensor-outside', () => {
 
-        expect(hwcontroller.hwComponents[0]['id']).toBe('temp_sensor_0');
+        expect(hwcontroller.hwComponents[0]['id']).toBe('temp_sensor_outside');
     });
   });
 });

@@ -97,7 +97,7 @@ buttonZ2.addEventListener("click", function() {
     return;
   }
   var id = "temp_zone_1"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -139,7 +139,7 @@ buttonZ3.addEventListener("click", function() {
     return;
   }
   var id = "temp_zone_2"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -181,7 +181,7 @@ buttonV.addEventListener("click", function() {
     return;
   }
   var id = "temp_heat_coil"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -293,9 +293,9 @@ setInterval(() => {
       temp3.textContent = JSON.parse(json[12].reading);
       tempV.textContent = JSON.parse(json[16].reading);
 
-      co2.textContent = JSON.parse(json[1].reading);
-      co22.textContent = JSON.parse(json[5].reading);
-      co23.textContent = JSON.parse(json[9].reading);
+      co2.textContent = JSON.parse(json[2].reading);
+      co22.textContent = JSON.parse(json[6].reading);
+      co23.textContent = JSON.parse(json[10].reading);
 
     }).catch(function(ex) {
       console.log('parsing failed', ex);

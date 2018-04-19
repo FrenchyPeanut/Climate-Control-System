@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
@@ -88,7 +88,7 @@ app.route('/sudo/:id')
     var id = req.params.id;
     var value = Number(req.query.value);
     var override = false;
-    if (req.query.override == "true"){
+    if (req.query.override != null){
       override = true;
     }
     if (!value){
@@ -107,7 +107,11 @@ run();
 
 function updateSystem() {
   // main system loop
-
+  if (init){
+    hwController.setReadingsById(settings.bypassOptimizerSettings());
+    init = false;
+  }
+  // console.log(hwController.getReadingsByType("CO2-Sensor"));
   monitor.updateHWReadings(hwController.getReadings());
   monitor.monitor();
   optimizer.updateSettings(settings.getSettings());

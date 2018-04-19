@@ -41,7 +41,7 @@ class Simulator {
         "heaterOn": false,
         "fan": 100,
         "co2": 250,
-        "numPeople": 10
+        "numPeople": 20
       }
     };
   }
@@ -81,8 +81,8 @@ class Simulator {
       } else {
         zoneId = zoneId[1];
       }
-      this.updateTemp(zone, zoneId);
       if (zone != "Outside"){
+        this.updateTemp(zone, zoneId);
         this.updateCO2(zone, zoneId);
       }
     }
@@ -93,6 +93,9 @@ class Simulator {
       this.zones[zone].temp -= 0.25;
     } else if (this.zones[zone].heater > this.zones[zone].temp){
       this.zones[zone].temp += 0.25;
+    }
+    if (this.zones[zone].temp < this.zones["Outside"].temp){
+      this.zones[zone].temp = this.zones["Outside"].temp;
     }
     var tempSensorId = "temp_sensor_" + zoneId;
     var newZoneTemp = this.zones[zone].temp;
@@ -106,9 +109,9 @@ class Simulator {
   updateCO2(zone, zoneId){
     if(zone == "Zone-0" || zone == "Zone-1" || zone == "Zone-2"){
       var numPeople = this.zones[zone].numPeople;
-      var co2Increase = numPeople * 5;
-      var airIntake = this.zones["Vent"].damper_in;
-      var co2Decrease = 5 * airIntake;
+      var co2Increase = 2 * numPeople;
+      var airIntake = this.zones["Vent"]["damper_in"];
+      var co2Decrease = 0.5 * airIntake;
       if (airIntake == 100 && co2Decrease < co2Increase){
         co2Decrease = co2Increase + 50;
       }
@@ -123,13 +126,13 @@ class Simulator {
 
       var co2SensorId = "co2_sensor_" + zoneId;
       var newZoneCO2 = curCO2;
+      this.zones[zone].co2 = newZoneCO2;
       var toPush = {
         "id": co2SensorId,
         "reading": newZoneCO2
       };
       this.valuesToChange.push(toPush);
     } else if (zone == "Vent"){
-
 
       var co2SensorId = "co2_sensor_" + zoneId;
       var newZoneCO2 = this.zones[zone].co2;

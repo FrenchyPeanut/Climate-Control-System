@@ -98,9 +98,8 @@ buttonZ2.addEventListener("click", function() {
     modal.open();
     return;
   }
-  var id = "temp_zone_1"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
-
+  var id = "temp_zone_1";
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -142,7 +141,7 @@ buttonZ3.addEventListener("click", function() {
     return;
   }
   var id = "temp_zone_2"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -163,7 +162,7 @@ buttonZ3.addEventListener("click", function() {
 });
 
 /* Button Set Temperature - Vent */
-var buttonV = document.querySelector('.buttonV');
+/*var buttonV = document.querySelector('.buttonV');
 buttonV.addEventListener("click", function() {
   var input = document.querySelector('.inputV').value;
   //console.log(input);
@@ -184,7 +183,7 @@ buttonV.addEventListener("click", function() {
     return;
   }
   var id = "temp_heat_coil"
-  var url = 'http://45.76.143.202:3000/settings/' + id + "?value=" + input;
+  var url = 'http://localhost:3001/settings/' + id + "?value=" + input;
   console.log(url);
   var data = input;
   fetch(url, {
@@ -203,6 +202,7 @@ buttonV.addEventListener("click", function() {
     .then(response => response.json())
     .then(response => console.log(response))
 });
+*/
 
 
 // Adding the code here for the NodeJS api:
@@ -235,18 +235,18 @@ function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-setInterval(() => {
+/*setInterval(() => {
   var random_value = Math.floor(getRandomArbitrary(200, 250));
   co2_value.textContent = random_value + ' PPM';
   if (parseInt(co2_value.textContent) > 240) {
     console.log('CO2 value too high!!');
   }
 
-}, 5000)
+}, 5000)*/
 
 var hum = document.querySelector('.hum');
 
-setInterval(() => {
+/*setInterval(() => {
   var random_value2 = Math.floor(getRandomArbitrary(10, 55));
   hum.textContent = random_value2 + ' %';
   if (parseInt(hum.textContent) > 50) {
@@ -255,11 +255,11 @@ setInterval(() => {
   if (parseInt(hum.textContent) < 20) {
     console.log('humidity too low');
   }
-}, 20000);
+}, 20000);*/
 
 var pre = document.querySelector('.press');
 
-setInterval(() => {
+/*setInterval(() => {
   var random_value3 = Math.floor(getRandomArbitrary(3, 60));
   pre.textContent = random_value3 + ' PSI';
   if (parseInt(pre.textContent) > 50) {
@@ -268,7 +268,7 @@ setInterval(() => {
   if (parseInt(pre.textContent) < 7) {
     console.log('pressure too low');
   }
-}, 10000);
+}, 10000);*/
 
 
 
@@ -287,20 +287,43 @@ setInterval(() => {
       var temp = document.querySelector('.temp');
       var temp2 = document.querySelector('.temp2');
       var temp3 = document.querySelector('.temp3');
-      var tempV = document.querySelector('.tempV');
+      //var tempV = document.querySelector('.tempV');
 
       var co2 = document.querySelector('.co2_data');
       var co22 = document.querySelector('.co2_data2');
       var co23 = document.querySelector('.co2_data3');
 
-      temp.textContent = JSON.parse(json[4].reading);
-      temp2.textContent = JSON.parse(json[8].reading);
-      temp3.textContent = JSON.parse(json[12].reading);
-      tempV.textContent = JSON.parse(json[16].reading);
+      var press = document.querySelector('.press');
+      var hum = document.querySelector('.hum');
 
-      co2.textContent = JSON.parse(json[1].reading);
-      co22.textContent = JSON.parse(json[5].reading);
-      co23.textContent = JSON.parse(json[9].reading);
+      temp.textContent = JSON.parse(json[4].reading) + " °C";
+      temp2.textContent = JSON.parse(json[8].reading)+ " °C";
+      temp3.textContent = JSON.parse(json[12].reading)+ " °C";
+      //tempV.textContent = JSON.parse(json[16].reading)+ " °C";
+
+      co2.textContent = JSON.parse(json[2].reading)  + ' PPM';
+      co22.textContent = JSON.parse(json[6].reading)  + ' PPM';
+      co23.textContent = JSON.parse(json[10].reading)  + ' PPM';
+      if( JSON.parse(json[2].status != "OK")){
+        modal.setContent("<h1>Alert, the CO2 level of Zone 1 is too high!</h1>");
+        modal.open();
+        return;
+      }
+      if( JSON.parse(json[6].status != "OK")){
+        modal.setContent("<h1>Alert, the CO2 level of Zone 2 is too high!</h1>");
+        modal.open();
+        return;
+      }
+      if( JSON.parse(json[10].status != "OK")){
+        modal.setContent("<h1>Alert, the CO2 level of Zone 3 is too high!</h1>");
+        modal.open();
+        return;
+      }
+
+      press.textContent = JSON.parse(json[20].reading)  + ' PSI';
+      hum.textContent = JSON.parse(json[15].reading)  + ' %';
+
+
 
     }).catch(function(ex) {
       console.log('parsing failed', ex);

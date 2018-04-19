@@ -134,6 +134,8 @@ function updateSystem() {
 
   simulator.updateHWReadings(hwController.getReadings());
   simulator.updateSimulation();
+  optimizer.getCO2readings(hwController.getReadingsByType("CO2-Sensor"));
+  optimizer.getDamperStuff(hwController.getReadingsByType("Damper"));
   hwController.simSetReadings(simulator.getValuesToChange());
   // console.log('Monitor Readings')
   // console.log('-----')

@@ -293,10 +293,13 @@ setInterval(() => {
       var co22 = document.querySelector('.co2_data2');
       var co23 = document.querySelector('.co2_data3');
 
+      var press = document.querySelector('.press');
+      var hum = document.querySelector('.hum');
+
       temp.textContent = JSON.parse(json[4].reading) + " °C";
       temp2.textContent = JSON.parse(json[8].reading)+ " °C";
       temp3.textContent = JSON.parse(json[12].reading)+ " °C";
-      tempV.textContent = JSON.parse(json[16].reading)+ " °C";
+      //tempV.textContent = JSON.parse(json[16].reading)+ " °C";
 
       co2.textContent = JSON.parse(json[2].reading)  + ' PPM';
       co22.textContent = JSON.parse(json[6].reading)  + ' PPM';
@@ -316,6 +319,11 @@ setInterval(() => {
         modal.open();
         return;
       }
+
+      press.textContent = JSON.parse(json[20].reading)  + ' PSI';
+      hum.textContent = JSON.parse(json[15].reading)  + ' %';
+
+
 
     }).catch(function(ex) {
       console.log('parsing failed', ex);

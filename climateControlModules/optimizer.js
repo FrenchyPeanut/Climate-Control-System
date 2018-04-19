@@ -107,9 +107,9 @@ class optimizer {
     console.log(this.co2readings);
     console.log(this.damperReadings);
 
-    this.co2readings.map((readings)=>{
+    /*this.co2readings.map((readings)=>{
         return readings.reading = 340;
-    })
+    })*/
 
     console.log('check if co2 readings changed or not.')
     console.log(this.co2readings);

@@ -29,10 +29,17 @@ class Settings {
     return this.settingsJSON;
   }
 
-  // bypassOptimizerSettings(){
-  //
-  //   return toReturn;
-  // }
+  bypassOptimizerSettings(){
+    var dampers = ["damper_in", "damper_out", "damper_recycle"];
+    var toReturn = [];
+    for (var i in dampers){
+      var toPush = {"id": dampers[i], "reading": this.settingsJSON[dampers[i]]};
+      toReturn.push(toPush);
+    }
+
+
+    return toReturn;
+  }
 /*
   updateSettings(id, value){
     var status = "Error";

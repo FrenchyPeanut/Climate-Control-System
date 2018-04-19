@@ -32,9 +32,9 @@ class hwComponent{
     this.power = bool;
   }
 
-  simSetReading(value){
+  simSetReading(value, override){
     this.reading = value;
-    this.override = true;
+    this.override = override;
   }
 }
 

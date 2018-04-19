@@ -109,9 +109,6 @@ class HWController{
   }
 
   setReadingsById(readingList){
-    console.log("In reading list:");
-    console.log(readingList);
-    console.log("Done");
     for (var i = 0; i < readingList.length; i++){
       var id = readingList[i].id;
       var reading = readingList[i].reading;
@@ -134,6 +131,14 @@ class HWController{
       }
     }
     return;
+  }
+
+  simSetSingleReading(id, value){
+    for (var i = 0; i < hwComponents.length; i++){
+      if (id == hwComponents[i].id){
+        hwComponent[i].simSetReading(value);
+      }
+    }
   }
 
   simSetReadings(readingList){

@@ -16,14 +16,14 @@ class Simulator {
         "damper_in": 50,
         "damper_recycle": 50,
         "damper_out": 50,
-        "fan": 0,
+        "fan": 100,
         "co2": 250,
       },
       "Zone-0": {
         "temp": 10,
         "heater": 0,
         "heaterOn": false,
-        "fan": 0,
+        "fan": 100,
         "co2": 250,
         "numPeople": 10
       },
@@ -31,7 +31,7 @@ class Simulator {
         "temp": 10,
         "heater": 0,
         "heaterOn": false,
-        "fan": 0,
+        "fan": 100,
         "co2": 250,
         "numPeople": 10
       },
@@ -39,7 +39,7 @@ class Simulator {
         "temp": 10,
         "heater": 0,
         "heaterOn": false,
-        "fan": 0,
+        "fan": 100,
         "co2": 250,
         "numPeople": 10
       }
@@ -81,18 +81,60 @@ class Simulator {
       } else {
         zoneId = zoneId[1];
       }
-      if (this.zones[zone].heater < this.zones[zone].temp){
-        this.zones[zone].temp -= 0.25;
-      } else if (this.zones[zone].heater > this.zones[zone].temp){
-        this.zones[zone].temp += 0.25;
+      this.updateTemp(zone, zoneId);
+      if (zone != "Outside"){
+        this.updateCO2(zone, zoneId);
       }
-      var tempSensorId = "temp_sensor_" + zoneId;
-      var newZoneTemp = this.zones[zone].temp;
-      var toPush = {
-        "id": tempSensorId,
-        "reading": newZoneTemp
-      };
-      this.valuesToChange.push(toPush);
+    }
+  }
+
+  updateTemp(zone, zoneId){
+    if (this.zones[zone].heater < this.zones[zone].temp){
+      this.zones[zone].temp -= 0.25;
+    } else if (this.zones[zone].heater > this.zones[zone].temp){
+      this.zones[zone].temp += 0.25;
+    }
+    var tempSensorId = "temp_sensor_" + zoneId;
+    var newZoneTemp = this.zones[zone].temp;
+    var toPush = {
+      "id": tempSensorId,
+      "reading": newZoneTemp
+    };
+    this.valuesToChange.push(toPush);
+  }
+
+  updateCO2(zone, zoneId){
+    // var q = 0.05 * this.zoneList[zone].numPeople; // amount of co2 supplied. 0.05m3/h per person
+    // var n = 360; // number of air shifts per hour
+    // var vol = 225; // volume of room
+    // var e = 2.718;
+    // var c0 =
+    //
+    // var c = (q / (n * vol)) * (1 - Math.pow(e,(- n * t))) + (c0 - ci) * Math.pow(e,(- n * t)) + ci;
+    if (this.zones[zone].co2 > 1100){
+      this.zones[zone].co2 = getRandomIntInclusive(900, 1100);
+    }
+    else if (this.zones[zone].co2 > 1000 && this.zone[zone].co2 <= 1100){
+      this.zones[zone].co2 = getRandomIntInclusive(800, 1000);
+    }
+    else if (this.zones[zone].co2 > 800 && this.zone[zone].co2 <= 1000){
+      this.zones[zone].co2 = getRandomIntInclusive(700, 1100);
+    }
+    else if (this.zones[zone].co2 < 800){
+      this.zones[zone].co2 = getRandomIntInclusive(500, 800);
+    }
+    var co2SensorId = "co2_sensor_" + zoneId;
+    var newZoneCO2 = this.zones[zone].co2;
+    var toPush = {
+      "id": co2SensorId,
+      "reading": newZoneCO2
+    };
+    this.valuesToChange.push(toPush);
+
+    function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
     }
   }
 

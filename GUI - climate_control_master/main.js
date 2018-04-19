@@ -161,6 +161,72 @@ buttonZ3.addEventListener("click", function() {
     .then(response => console.log(response))
 });
 
+
+//var press = document.querySelector('.press');
+//var hum = document.querySelector('.hum');
+//press.textContent = JSON.parse(json[20].reading) + ' PSI';
+//hum.textContent = JSON.parse(json[15].reading) + ' %';
+
+setInterval(() => {
+  var hum = document.querySelector('.hum');
+  var random_value2 = Math.floor(getRandomArbitrary(10, 55));
+  hum.textContent = random_value2 + ' %';
+  if (parseInt(hum.textContent) > 50) {
+    console.log('humidity too high');
+  }
+  if (parseInt(hum.textContent) < 20) {
+    console.log('humidity too low');
+  }
+},3000);
+
+var pre = document.querySelector('.press');
+
+setInterval(() => {
+  var press = document.querySelector('.press');
+  var random_value3 = Math.floor(getRandomArbitrary(3, 60));
+  press.textContent = random_value3 + ' PSI';
+  if (parseInt(pre.textContent) > 50) {
+    console.log('pressure too high');
+  }
+  if (parseInt(pre.textContent) < 7) {
+    console.log('pressure too low');
+  }
+}, 3000);
+
+/*var buttonP1 = document.querySelector('.buttonP');
+//console.log(button);
+buttonP1.addEventListener("click", function() {
+  var input = document.querySelector('.inputP').value;
+  //console.log(input);
+  if (input.length == 0) {
+    modal.setContent("<h1>Please enter some value</h1>");
+    modal.open();
+    return;
+  }
+
+  var url = 'http://localhost:3001/sudo/zones/Zone-0?numPeople=' + input;
+  console.log(url);
+  //function postData(url, data) {
+  var data = input;
+  fetch(url, {
+      //body: data, // must match 'Content-Type' header
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, same-origin, *omit
+      headers: {
+        'user-agent': 'Mozilla/4.0 MDN Example',
+        'content-type': 'application/json'
+      },
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, cors, *same-origin
+      redirect: 'follow', // *manual, follow, error
+      referrer: 'no-referrer', // *client, no-referrer
+    })
+    //.then(response => response.json())
+    //.then(response => console.log(response))
+  // Default options are marked with *
+  //return  // parses response to JSON
+}); */
+
 /* Button Set Temperature - Vent */
 /*var buttonV = document.querySelector('.buttonV');
 buttonV.addEventListener("click", function() {
@@ -275,7 +341,7 @@ var pre = document.querySelector('.press');
 // Initializing the allReadings query to the API:
 setInterval(() => {
 
-    fetch('http://localhost:3001/allReadings')//fetch('http://45.76.143.202:3000/allReadings')
+  fetch('http://localhost:3001/allReadings') //fetch('http://45.76.143.202:3000/allReadings')
 
     .then(function(response) {
       return response.json()
@@ -297,31 +363,29 @@ setInterval(() => {
       var hum = document.querySelector('.hum');
 
       temp.textContent = JSON.parse(json[4].reading) + " °C";
-      temp2.textContent = JSON.parse(json[8].reading)+ " °C";
-      temp3.textContent = JSON.parse(json[12].reading)+ " °C";
+      temp2.textContent = JSON.parse(json[8].reading) + " °C";
+      temp3.textContent = JSON.parse(json[12].reading) + " °C";
       //tempV.textContent = JSON.parse(json[16].reading)+ " °C";
 
-      co2.textContent = JSON.parse(json[2].reading)  + ' PPM';
-      co22.textContent = JSON.parse(json[6].reading)  + ' PPM';
-      co23.textContent = JSON.parse(json[10].reading)  + ' PPM';
-      if( JSON.parse(json[2].status != "OK")){
+      co2.textContent = JSON.parse(json[2].reading) + ' PPM';
+      co22.textContent = JSON.parse(json[6].reading) + ' PPM';
+      co23.textContent = JSON.parse(json[10].reading) + ' PPM';
+      if (JSON.parse(json[2].status != "OK")) {
         modal.setContent("<h1>Alert, the CO2 level of Zone 1 is too high!</h1>");
         modal.open();
         return;
       }
-      if( JSON.parse(json[6].status != "OK")){
+      if (JSON.parse(json[6].status != "OK")) {
         modal.setContent("<h1>Alert, the CO2 level of Zone 2 is too high!</h1>");
         modal.open();
         return;
       }
-      if( JSON.parse(json[10].status != "OK")){
+      if (JSON.parse(json[10].status != "OK")) {
         modal.setContent("<h1>Alert, the CO2 level of Zone 3 is too high!</h1>");
         modal.open();
         return;
       }
 
-      press.textContent = JSON.parse(json[20].reading)  + ' PSI';
-      hum.textContent = JSON.parse(json[15].reading)  + ' %';
 
 
 

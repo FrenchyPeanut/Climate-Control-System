@@ -1,6 +1,6 @@
 var Monitor = require('../climateControlModules/monitor');
-var HWComponent = require('../climateControlModules/hwComponent');
-var HWController = require('..climateControlModules/hwController');
+// var HWComponent = require('../climateControlModules/hwComponent');
+// var HWController = require('..climateControlModules/hwController');
 var expect = require('expect');
 
 var monitor = new Monitor();

@@ -133,10 +133,12 @@ class HWController{
     return;
   }
 
-  simSetSingleReading(id, value, override){
-    for (var i = 0; i < hwComponents.length; i++){
-      if (id == hwComponents[i].id){
-        hwComponent[i].simSetReading(value, override);
+
+  sudoSetSingleReading(id, value, override){
+    for (var i = 0; i < this.hwComponents.length; i++){
+      if (id == this.hwComponents[i].id){
+        this.hwComponents[i].sudoSetReading(value, override);
+        break;
       }
     }
   }

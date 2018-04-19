@@ -5,8 +5,12 @@ class hwComponent{
     this.type = type;
     this.id = id;
     this.reading = 0;
-    this.power = false;
+    this.power = true;
     this.override = false;
+
+    if (this.type == "Fan"){
+      this.reading = 200;
+    }
   }
 
   setReading(value){
@@ -32,9 +36,15 @@ class hwComponent{
     this.power = bool;
   }
 
-  simSetReading(value, override){
+  sudoSetReading(value, override){
     this.reading = value;
     this.override = override;
+  }
+
+  simSetReading(value){
+    if (!this.override){
+      this.reading = value;
+    }
   }
 }
 

@@ -41,7 +41,7 @@ class Simulator {
         "heaterOn": false,
         "fan": 100,
         "co2": 250,
-        "numPeople": 20
+        "numPeople": 10
       }
     };
   }
@@ -160,6 +160,10 @@ class Simulator {
 
   getValuesToChange(){
     return this.valuesToChange;
+  }
+
+  setNumPeopleInZone(zone, numPeople){
+    this.zones[zone].numPeople = numPeople;
   }
 }
 

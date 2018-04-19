@@ -114,18 +114,7 @@ class optimizer {
     console.log('check if co2 readings changed or not.')
     console.log(this.co2readings);
     for(var i = 0; i<this.co2readings.length;i++){
-      if(this.co2readings[i].reading > 750 && this.co2readings[i].reading < 1000 ) {
-       this.damperReadings = this.damperReadings.map((readings)=>{
-            if(readings.id === 'damper_in' || readings.id === 'damper_out') {
-               readings.reading = 75;
-            }
-            if(readings.id === 'damper_recycle') {
-              readings.reading = 25;
-            }
-
-           return readings;
-          })
-      } else if(this.co2readings[i].reading >= 1200 ) {
+      if(this.co2readings[i].reading >= 1100 ) {
         this.damperReadings = this.damperReadings.map((readings)=>{
           if(readings.id === 'damper_in' || readings.id === 'damper_out') {
             readings.reading = 100
@@ -136,6 +125,20 @@ class optimizer {
 
           return readings;
         })
+        break;
+      }
+      else if(this.co2readings[i].reading > 750 && this.co2readings[i].reading < 900 ) {
+       this.damperReadings = this.damperReadings.map((readings)=>{
+            if(readings.id === 'damper_in' || readings.id === 'damper_out') {
+               readings.reading = 75;
+            }
+            if(readings.id === 'damper_recycle') {
+              readings.reading = 25;
+            }
+
+           return readings;
+         });
+         break;
       } else if(this.co2readings[i].reading < 400) {
         this.damperReadings = this.damperReadings.map((readings)=>{
           if(readings.id === 'damper_in' || readings.id === 'damper_out') {
@@ -146,7 +149,8 @@ class optimizer {
           }
 
           return readings;
-        })
+        });
+        break;
       }
     }
     console.log('---check damper---')

@@ -125,7 +125,7 @@ class Simulator {
       }
 
       var co2SensorId = "co2_sensor_" + zoneId;
-      var newZoneCO2 = curCO2;
+      var newZoneCO2 = getRandomIntInclusive(curCO2-15,curCO2+15);
       this.zones[zone].co2 = newZoneCO2;
       var toPush = {
         "id": co2SensorId,
